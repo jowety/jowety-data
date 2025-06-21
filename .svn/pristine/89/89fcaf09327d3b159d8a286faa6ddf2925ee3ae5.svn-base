@@ -1,7 +1,0 @@
-package com.jowety.data.dao;
-
-
-public interface DaoRepo {
-
-	public <T> Dao<T> getDao(Class<T> clash);
-}
