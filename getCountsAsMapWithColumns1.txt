@@ -1,0 +1,29 @@
+getCountsAsMapWithColumns with no columnFilters, empty baseFilters
+
+Results size = 26
+0: continent:Asia; total:8; region:Eastern Asia
+1: continent:Asia; total:18; region:Middle East
+2: continent:Asia; total:11; region:Southeast Asia
+3: continent:Asia; total:14; region:Southern and Central Asia
+4: continent:Europe; total:3; region:Baltic Countries
+5: continent:Europe; total:2; region:British Islands
+6: continent:Europe; total:10; region:Eastern Europe
+7: continent:Europe; total:7; region:Nordic Countries
+8: continent:Europe; total:15; region:Southern Europe
+9: continent:Europe; total:9; region:Western Europe
+10: continent:North America; total:24; region:Caribbean
+11: continent:North America; total:8; region:Central America
+12: continent:North America; total:5; region:North America
+13: continent:Africa; total:9; region:Central Africa
+14: continent:Africa; total:20; region:Eastern Africa
+15: continent:Africa; total:7; region:Northern Africa
+16: continent:Africa; total:5; region:Southern Africa
+17: continent:Africa; total:17; region:Western Africa
+18: continent:Oceania; total:5; region:Australia and New Zealand
+19: continent:Oceania; total:5; region:Melanesia
+20: continent:Oceania; total:7; region:Micronesia
+21: continent:Oceania; total:1; region:Micronesia/Caribbean
+22: continent:Oceania; total:10; region:Polynesia
+23: continent:Antarctica; total:5; region:Antarctica
+24: continent:South America; total:14; region:South America
+25: total:239

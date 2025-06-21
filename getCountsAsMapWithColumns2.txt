@@ -1,0 +1,45 @@
+getCountsAsMapWithColumns WITH columnFilters, empty baseFilters
+		List<Select> selects = countryDao.makeSelects("continent", "region");
+		
+		HashMap<String, List<Filter<Country>>> colfilts = new HashMap<String, List<Filter<Country>>>();
+		List<Filter<Country>> alist = new ArrayList<Filter<Country>>();
+		alist.add(new Filter<Country>("governmentform", "Republic"));
+		colfilts.put("Republic", alist);
+		
+		List<Filter<Country>> blist = new ArrayList<Filter<Country>>();
+		blist.add(new Filter<Country>("governmentform", "Islamic Emirate"));
+		colfilts.put("Islamic Emirate", blist);
+		
+		List<Filter<Country>> clist = new ArrayList<Filter<Country>>();
+		clist.add(new Filter<Country>("governmentform", "Constitutional Monarchy"));
+		colfilts.put("Constitutional Monarchy", clist);
+		
+		List<Map<String, Object>> results = countryDao.getCountsAsMapWithColumns(selects, new ArrayList<Filter<Country>>(), colfilts, true);
+
+Results size = 26
+0: continent:Asia; total:8; Islamic Emirate:0; Constitutional Monarchy:1; region:Eastern Asia; Republic:3
+1: continent:Asia; total:18; Islamic Emirate:0; Constitutional Monarchy:1; region:Middle East; Republic:9
+2: continent:Asia; total:11; Islamic Emirate:0; Constitutional Monarchy:2; region:Southeast Asia; Republic:5
+3: continent:Asia; total:14; Islamic Emirate:1; Constitutional Monarchy:1; region:Southern and Central Asia; Republic:9
+4: continent:Europe; total:3; Islamic Emirate:0; Constitutional Monarchy:0; region:Baltic Countries; Republic:3
+5: continent:Europe; total:2; Islamic Emirate:0; Constitutional Monarchy:1; region:British Islands; Republic:1
+6: continent:Europe; total:10; Islamic Emirate:0; Constitutional Monarchy:0; region:Eastern Europe; Republic:9
+7: continent:Europe; total:7; Islamic Emirate:0; Constitutional Monarchy:3; region:Nordic Countries; Republic:2
+8: continent:Europe; total:15; Islamic Emirate:0; Constitutional Monarchy:1; region:Southern Europe; Republic:9
+9: continent:Europe; total:9; Islamic Emirate:0; Constitutional Monarchy:4; region:Western Europe; Republic:1
+10: continent:North America; total:24; Islamic Emirate:0; Constitutional Monarchy:8; region:Caribbean; Republic:4
+11: continent:North America; total:8; Islamic Emirate:0; Constitutional Monarchy:1; region:Central America; Republic:6
+12: continent:North America; total:5; Islamic Emirate:0; Constitutional Monarchy:0; region:North America; Republic:0
+13: continent:Africa; total:9; Islamic Emirate:0; Constitutional Monarchy:0; region:Central Africa; Republic:9
+14: continent:Africa; total:20; Islamic Emirate:0; Constitutional Monarchy:0; region:Eastern Africa; Republic:16
+15: continent:Africa; total:7; Islamic Emirate:0; Constitutional Monarchy:1; region:Northern Africa; Republic:3
+16: continent:Africa; total:5; Islamic Emirate:0; Constitutional Monarchy:1; region:Southern Africa; Republic:3
+17: continent:Africa; total:17; Islamic Emirate:0; Constitutional Monarchy:0; region:Western Africa; Republic:15
+18: continent:Oceania; total:5; Islamic Emirate:0; Constitutional Monarchy:1; region:Australia and New Zealand; Republic:0
+19: continent:Oceania; total:5; Islamic Emirate:0; Constitutional Monarchy:2; region:Melanesia; Republic:2
+20: continent:Oceania; total:7; Islamic Emirate:0; Constitutional Monarchy:0; region:Micronesia; Republic:4
+21: continent:Oceania; total:1; Islamic Emirate:0; Constitutional Monarchy:0; region:Micronesia/Caribbean; Republic:0
+22: continent:Oceania; total:10; Islamic Emirate:0; Constitutional Monarchy:1; region:Polynesia; Republic:0
+23: continent:Antarctica; total:5; Islamic Emirate:0; Constitutional Monarchy:0; region:Antarctica; Republic:0
+24: continent:South America; total:14; Islamic Emirate:0; Constitutional Monarchy:0; region:South America; Republic:9
+25: total:239; Islamic Emirate:1; Constitutional Monarchy:29; Republic:122

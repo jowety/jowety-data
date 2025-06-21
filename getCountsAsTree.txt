@@ -1,0 +1,35 @@
+List<Count> results = countryDao.getCountsAsTree("continent", "region");
+
+DEBUG com.jowety.util.TestUtil - Results size = 7
+DEBUG com.jowety.util.TestUtil - 0: Count[values=[continent:Asia],count=51,total=239,percent=21.338913,
+	subcount=Count[values=[continent:Asia; region:Eastern Asia],count=8,total=51,percent=15.6862755],
+	subcount=Count[values=[continent:Asia; region:Middle East],count=18,total=51,percent=35.294117],
+	subcount=Count[values=[continent:Asia; region:Southeast Asia],count=11,total=51,percent=21.568628],
+	subcount=Count[values=[continent:Asia; region:Southern and Central Asia],count=14,total=51,percent=27.450981]]
+DEBUG com.jowety.util.TestUtil - 1: Count[values=[continent:Europe],count=46,total=239,percent=19.24686,
+	subcount=Count[values=[continent:Europe; region:Baltic Countries],count=3,total=46,percent=6.521739],
+	subcount=Count[values=[continent:Europe; region:British Islands],count=2,total=46,percent=4.347826],
+	subcount=Count[values=[continent:Europe; region:Eastern Europe],count=10,total=46,percent=21.73913],
+	subcount=Count[values=[continent:Europe; region:Nordic Countries],count=7,total=46,percent=15.217391],
+	subcount=Count[values=[continent:Europe; region:Southern Europe],count=15,total=46,percent=32.608696],
+	subcount=Count[values=[continent:Europe; region:Western Europe],count=9,total=46,percent=19.565218]]
+DEBUG com.jowety.util.TestUtil - 2: Count[values=[continent:North America],count=37,total=239,percent=15.481171,
+	subcount=Count[values=[continent:North America; region:Caribbean],count=24,total=37,percent=64.86486],
+	subcount=Count[values=[continent:North America; region:Central America],count=8,total=37,percent=21.621622],
+	subcount=Count[values=[continent:North America; region:North America],count=5,total=37,percent=13.513513]]
+DEBUG com.jowety.util.TestUtil - 3: Count[values=[continent:Africa],count=58,total=239,percent=24.267782,
+	subcount=Count[values=[continent:Africa; region:Central Africa],count=9,total=58,percent=15.517241],
+	subcount=Count[values=[continent:Africa; region:Eastern Africa],count=20,total=58,percent=34.482758],
+	subcount=Count[values=[continent:Africa; region:Northern Africa],count=7,total=58,percent=12.068965],
+	subcount=Count[values=[continent:Africa; region:Southern Africa],count=5,total=58,percent=8.620689],
+	subcount=Count[values=[continent:Africa; region:Western Africa],count=17,total=58,percent=29.310345]]
+DEBUG com.jowety.util.TestUtil - 4: Count[values=[continent:Oceania],count=28,total=239,percent=11.715482,
+	subcount=Count[values=[continent:Oceania; region:Australia and New Zealand],count=5,total=28,percent=17.857143],
+	subcount=Count[values=[continent:Oceania; region:Melanesia],count=5,total=28,percent=17.857143],
+	subcount=Count[values=[continent:Oceania; region:Micronesia],count=7,total=28,percent=25.0],
+	subcount=Count[values=[continent:Oceania; region:Micronesia/Caribbean],count=1,total=28,percent=3.5714288],
+	subcount=Count[values=[continent:Oceania; region:Polynesia],count=10,total=28,percent=35.714287]]
+DEBUG com.jowety.util.TestUtil - 5: Count[values=[continent:Antarctica],count=5,total=239,percent=2.0920503,
+	subcount=Count[values=[continent:Antarctica; region:Antarctica],count=5,total=5,percent=100.0]]
+DEBUG com.jowety.util.TestUtil - 6: Count[values=[continent:South America],count=14,total=239,percent=5.857741,
+	subcount=Count[values=[continent:South America; region:South America],count=14,total=14,percent=100.0]]

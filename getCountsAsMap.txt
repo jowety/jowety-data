@@ -1,0 +1,28 @@
+getCountsAsMap, no filters, Country table
+
+Results size = 25
+0: continent:Asia; count:8; region:Eastern Asia
+1: continent:Asia; count:18; region:Middle East
+2: continent:Asia; count:11; region:Southeast Asia
+3: continent:Asia; count:14; region:Southern and Central Asia
+4: continent:Europe; count:3; region:Baltic Countries
+5: continent:Europe; count:2; region:British Islands
+6: continent:Europe; count:10; region:Eastern Europe
+7: continent:Europe; count:7; region:Nordic Countries
+8: continent:Europe; count:15; region:Southern Europe
+9: continent:Europe; count:9; region:Western Europe
+10: continent:North America; count:24; region:Caribbean
+11: continent:North America; count:8; region:Central America
+12: continent:North America; count:5; region:North America
+13: continent:Africa; count:9; region:Central Africa
+14: continent:Africa; count:20; region:Eastern Africa
+15: continent:Africa; count:7; region:Northern Africa
+16: continent:Africa; count:5; region:Southern Africa
+17: continent:Africa; count:17; region:Western Africa
+18: continent:Oceania; count:5; region:Australia and New Zealand
+19: continent:Oceania; count:5; region:Melanesia
+20: continent:Oceania; count:7; region:Micronesia
+21: continent:Oceania; count:1; region:Micronesia/Caribbean
+22: continent:Oceania; count:10; region:Polynesia
+23: continent:Antarctica; count:5; region:Antarctica
+24: continent:South America; count:14; region:South America

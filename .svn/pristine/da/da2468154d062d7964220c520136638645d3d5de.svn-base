@@ -1,0 +1,357 @@
+package com.jowety.data.query;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+
+import javax.persistence.Tuple;
+
+import com.jowety.data.query.Filter.MatchMode;
+import com.jowety.util.DateUtil;
+
+
+public class Search<T> implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	protected List<Select> selects;
+	protected Collection<Filter<T>> filters;
+	protected List<OrderBy<T>> orders;
+	protected List<String> groups;
+	protected Collection<Hint> hints;
+	protected Integer firstResult;
+	protected Integer maxResults;
+	protected boolean distinct;
+	protected Collection<String> eagerFetch;
+
+	protected SearchDao<T> dao;
+
+
+
+
+	public boolean getDistinct() {
+		return distinct;
+	}
+	public Search<T> setDistinct(boolean distinct) {
+		this.distinct = distinct;
+		return this;
+	}
+	/**
+	 * Convenience method for setting distict = true
+	 * @return
+	 */
+	public Search<T> distinct() {
+		this.distinct = true;
+		return this;
+	}
+	public Collection<Filter<T>> getFilters() {
+		return filters;
+	}
+	public Search<T> setFilters(Collection<Filter<T>> filters) {
+		this.filters = filters;
+		return this;
+	}
+	public Search<T> setFilters(Filter<T>... filterBy) {
+		this.filters = Arrays.asList(filterBy);
+		return this;
+	}
+	public List<OrderBy<T>> getOrders() {
+		return orders;
+	}
+	public Search<T> setOrders(List<OrderBy<T>> orders) {
+		this.orders = orders;
+		return this;
+	}
+	public Search<T> setOrders(OrderBy<T>... orders) {
+		this.orders = Arrays.asList(orders);
+		return this;
+	}
+	public List<String> getGroups() {
+		return groups;
+	}
+	public void setGroups(List<String> groups) {
+		this.groups = groups;
+	}
+	public void setGroups(String...groups) {
+		this.groups = Arrays.asList(groups);
+	}
+	public Collection<Hint> getHints() {
+		return hints;
+	}
+	public Search<T> setHints(Collection<Hint> hints) {
+		this.hints = hints;
+		return this;
+	}
+	public Search<T> setHints(Hint... hints) {
+		this.hints = Arrays.asList(hints);
+		return this;
+	}
+	public Integer getFirstResult() {
+		return firstResult;
+	}
+	public Search<T> setFirstResult(Integer firstResult) {
+		this.firstResult = firstResult;
+		return this;
+	}
+	/**
+	 * Same as setFirstResult, but shorter
+	 * @param firstResult
+	 * @return
+	 */
+	public Search<T> first(Integer firstResult) {
+		this.firstResult = firstResult;
+		return this;
+	}
+	public Integer getMaxResults() {
+		return maxResults;
+	}
+	public Search<T> setMaxResults(Integer maxResults) {
+		this.maxResults = maxResults;
+		return this;
+	}
+	/**
+	 * Same as setMaxResults, but shorter
+	 * @param maxResults
+	 * @return
+	 */
+	public Search<T> max(Integer maxResults) {
+		this.maxResults = maxResults;
+		return this;
+	}
+	public Search<T> addFilterBy(Filter<T> filter){
+		if(this.filters == null)
+			this.filters = new ArrayList<Filter<T>>();
+		this.filters.add(filter);
+		return this;
+	}
+	/**
+	 * Convenience method for adding a FilterBy
+	 * @param path
+	 * @param value
+	 * @param match
+	 * @return
+	 */
+	public Search<T> filterBy(String path, Object value, MatchMode match){
+		this.addFilterBy(new Filter<T>(path, value, match));
+		return this;
+	}
+	public Search<T> filterBy(Function func, Object value, MatchMode match){
+		this.addFilterBy(new Filter<T>(func, value, match));
+		return this;
+	}
+	public Search<T> filterBy(Exp exp, Object value, MatchMode match){
+		this.addFilterBy(new Filter<T>(exp, value, match));
+		return this;
+	}
+	public Search<T> filterPaths(String leftPath, String rightPath, MatchMode match){
+		this.addFilterBy(new Filter<T>(Exp.path(leftPath), Exp.path(rightPath), match));
+		return this;
+	}
+	/**
+	 * @param property
+	 * @param fromDate GREATER_THAN_OR_EQUAL match. If null, no fromDate filter added.
+	 * @param toDate LESS_THAN match. If null, no toDate filter added.
+	 * @return
+	 */
+	public Search<T> filterDateRange(String property, Date fromDate, Date toDate){
+		if(fromDate != null) filterBy(property, DateUtil.getTopOfDay(fromDate), MatchMode.GREATER_THAN_OR_EQUAL);
+		if(toDate != null) filterBy(property, DateUtil.getTopOfNextDay(toDate), MatchMode.LESS_THAN);
+		return this;
+	}
+	/**
+	 * Convenience method to create an OR grouping
+	 * @param filters
+	 * @return
+	 */
+	public Search<T> createOrGroup(Filter<T>... filters){
+		Collection<Filter<T>> orSet = new HashSet<Filter<T>>();
+		for(Filter<T> filter: filters)
+			orSet.add(filter);
+		this.addFilterBy(new Filter<T>("", orSet, MatchMode.OR));
+		return this;
+	}
+
+	public OrGroup<T> beginOrGroup(){
+		OrGroup<T> og = new OrGroup<T>(this);
+		this.addFilterBy(og);
+		return og;
+	}
+
+	/**
+	 * Convenience method for adding a FilterBy with MatchMode.EQUALS
+	 * @param path the property path to filter by
+	 * @param value the value to restrict the property
+	 * @return
+	 */
+	public Search<T> filterBy(String path, Object value){
+		this.addFilterBy(new Filter<T>(path, value, MatchMode.EQUALS));
+		return this;
+	}
+	public Search<T> notNull(String path){
+		this.addFilterBy(new Filter<T>(path, null, MatchMode.NOT_NULL));
+		return this;
+	}
+	public Search<T> isNull(String path){
+		this.addFilterBy(new Filter<T>(path, null, MatchMode.NULL));
+		return this;
+	}
+	public Search<T> filterBy(Function func, Object value){
+		this.addFilterBy(new Filter<T>(func, value, MatchMode.EQUALS));
+		return this;
+	}
+	public Search<T> filterBy(Exp exp, Object value){
+		this.addFilterBy(new Filter<T>(exp, value, MatchMode.EQUALS));
+		return this;
+	}
+	public Search<T> filterBy(Collection<Filter<T>> value, MatchMode match){
+		this.addFilterBy(new Filter<T>(value, match));
+		return this;
+	}
+	public Search<T> addOrderBy(OrderBy<T> orderby){
+		if(this.orders == null)
+			this.orders = new ArrayList<OrderBy<T>>();
+		this.orders.add(orderby);
+		return this;
+	}
+	/**
+	 * Convenience method for adding an OrderBy
+	 * @param orderby
+	 * @return
+	 */
+	public Search<T> orderBy(String property, boolean ascending){
+		if(this.orders == null)
+			this.orders = new ArrayList<OrderBy<T>>();
+		this.orders.add(new OrderBy<T>(property, ascending));
+		return this;
+	}
+	public Search<T> orderByAsc(String property){
+		return orderBy(property, true);
+	}
+	public Search<T> orderByDesc(String property){
+		return orderBy(property, false);
+	}
+
+	public Search<T> groupBy(String group){
+		if(this.groups == null)
+			this.groups = new ArrayList<String>();
+		this.groups.add(group);
+		return this;
+	}
+	public Search<T> groupBy(String...value){
+		for(String s: value)
+			this.groupBy(s);
+		return this;
+	}
+
+	public Search<T> addHint(Hint hint){
+		if(this.hints == null) this.hints = new ArrayList<Hint>();
+		this.hints.add(hint);
+		return this;
+	}
+
+	public Search<T> hint(String name, Object value){
+		if(this.hints == null) this.hints = new ArrayList<Hint>();
+		this.hints.add(new Hint(name, value));
+		return this;
+	}
+	/**
+	 * @return the eagerFetch
+	 */
+	public Collection<String> getEagerFetchProps() {
+		return eagerFetch;
+	}
+	/**
+	 * @param eagerFetch
+	 */
+	public Search<T>  setEagerFetchProps(Collection<String> eagerFetch) {
+		this.eagerFetch = eagerFetch;
+		return this;
+	}
+	public Search<T> eagerFetch(String prop){
+		if(eagerFetch == null) eagerFetch = new HashSet<String>();
+		eagerFetch.add(prop);
+		return this;
+	}
+
+	/*
+	 * 2014-07-10 JWT
+	 * New convenience functionality for chaining calls.
+	 * dao.newSearch() now injects the Dao into the returned Search object.
+	 * Search now includes search methods which call back to the injected Dao.
+	 *
+	 * example - List<T> results = dao.newSearch().filterBy().orderBy().search();
+	 */
+
+	public SearchDao<T> getDao() {
+		return dao;
+	}
+	public void setDao(SearchDao<T> dao) {
+		this.dao = dao;
+	}
+
+
+	public List<T> search(){
+		if(dao == null)
+			throw new UnsupportedOperationException("The SearchDao has not been set");
+		return dao.search(this);
+	}
+
+	public Search<T> select(String... select) {
+		if(selects == null)
+			selects = new ArrayList<Select>();
+		for(String s: select)
+			selects.add(new Select(s));
+		return this;
+	}
+
+	public Search<T> select(Select... select) {
+		if(selects == null)
+			selects = new ArrayList<Select>();
+		for(Select s: select)
+			selects.add(s);
+		return this;
+	}
+
+	/**
+	 * Performs a search using the selections that have been set on the Search
+	 * @return List<Tuple>
+	 */
+	public List<Tuple> selectedSearch(){
+		if(dao == null)
+			throw new UnsupportedOperationException("The SearchDao has not been set");
+		return dao.search(selects, this);
+	}
+
+	public T findOne(){
+		if(dao == null)
+			throw new UnsupportedOperationException("The SearchDao has not been set");
+		return dao.searchOne(this);
+	}
+
+	public <X> List<X> singleSelectSearch(Select select, Class<X> c){
+		if(dao == null)
+			throw new UnsupportedOperationException("The SearchDao has not been set");
+		return dao.search(select, this, c);
+	}
+
+
+	public Integer count() {
+		if(dao == null)
+			throw new UnsupportedOperationException("The SearchDao has not been set");
+		return dao.count(this);
+	}
+
+	/**
+	 * Starts a method chain which creates a Filter on this Search
+	 * @return a LeftSide object
+	 */
+	public Filter<T>.LeftSide where(){
+		Filter<T> f = new Filter<>();
+		addFilterBy(f);
+		return f.startWhere(this);
+	}
+}

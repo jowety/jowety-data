@@ -1,0 +1,15 @@
+package com.jowety.data.query.jpa;
+
+import java.util.Map;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import com.jowety.data.query.Filter;
+
+public interface PredicateBuilder {
+
+	public <X> Predicate build(CriteriaBuilder cb, Root<X> from, Filter<X> filter, Map<String, Path> pathMap);
+}

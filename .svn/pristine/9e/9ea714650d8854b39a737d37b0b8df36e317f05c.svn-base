@@ -1,0 +1,70 @@
+package com.jowety.data.query;
+
+import java.io.Serializable;
+
+/**
+ * @author Jon.Tyree
+ * Ulitmately gets translated into a javax.persistence.criteria.Expression
+ *
+ */
+public class Exp implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	public Exp() {
+	}
+	
+	private ExpType type;
+	private Object value;
+	
+	public static enum ExpType{
+		FUNCTION,
+		PATH,
+		LITERAL
+	}
+	
+	public static Exp function(Function func) {
+		Exp out = new Exp();
+		out.type = ExpType.FUNCTION;
+		out.value = func;
+		return out;
+	}
+	public static Exp path(String path) {
+		Exp out = new Exp();
+		out.type = ExpType.PATH;
+		out.value = path;
+		return out;		
+	}
+	public static Exp literal(Object value) {
+		Exp out = new Exp();
+		out.type = ExpType.LITERAL;
+		out.value = value;
+		return out;		
+	}
+	/**
+	 * @return the type
+	 */
+	public ExpType getType() {
+		return type;
+	}
+	/**
+	 * @return the value
+	 */
+	public Object getValue() {
+		return value;
+	}
+	/**
+	 * @param type the type to set
+	 */
+	public void setType(ExpType type) {
+		this.type = type;
+	}
+	/**
+	 * @param value the value to set
+	 */
+	public void setValue(Object value) {
+		this.value = value;
+	}
+	
+
+}
