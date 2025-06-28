@@ -1,5 +1,7 @@
 package com.jowety.data.query;
 
+import java.time.LocalDate;
+
 import com.jowety.data.client.search.SimpleSearch;
 import com.jowety.data.query.Filter.MatchMode;
 
@@ -57,6 +59,10 @@ public class SimpleSearchConverter {
 		}
 		else if(input.matches("\\d+(\\.\\d+)")) {
 			return Double.valueOf(input);
+		}
+		else if(input.startsWith("localDate:")) {
+			String val = input.substring(10);
+			return LocalDate.parse(val);
 		}
 		return input;
 	}
