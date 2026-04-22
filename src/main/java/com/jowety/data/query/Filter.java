@@ -57,16 +57,16 @@ public class Filter<T>  implements Serializable{
 		 */
 		ENDSWITH (false, "ends"),
 		/**
-		 * Case insensitive ENDSWITH. Creates a value plus wildcard restriction.
 		 * Upper cases the match string and the database value.
 		 * Requires value type of String
 		 */
 		ENDSWITH_CI (false, "ends_ci"),
 		/**
+		 * Case insensitive ENDSWITH. Creates a value plus wildcard restriction.
 		 * Specialized LIKE.  Wraps the value with wildcards on both sides.
 		 * Requires value type of String
 		 */
-		CONTAINS (false),
+		CONTAINS (false, "contains"),
 		/**
 		 * Specialized NOT LIKE.  Wraps the value with wildcards on both sides.
 		 * Requires value type of String
@@ -77,7 +77,7 @@ public class Filter<T>  implements Serializable{
 		 * Upper cases the match string and the database value.
 		 * Requires value type of String
 		 */
-		CONTAINS_CI (false),
+		CONTAINS_CI (false, "contains_ci"),
 		/**
 		 * Case insensitive NEGATIVE CONTAINS. Wraps the value with wildcards on both sides.
 		 * Upper cases the match string and the database value.
@@ -88,31 +88,31 @@ public class Filter<T>  implements Serializable{
 		 * Put your own wildcards in the value string.
 		 * Requires value type of String.
 		 */
-		LIKE (false),
+		LIKE (false, "like"),
 		/**
 		 * Case insensitive. Upper cases the match string and the database value.
 		 * Put your own wildcards in the value string.
 		 * Requires value type of String.
 		 */
-		LIKE_CI (false),
+		LIKE_CI (false, "like_ci"),
 		/**
 		 * Put your own wildcards in the value string.
 		 * Requires value type of String.
 		 */
-		NOT_LIKE (false),
+		NOT_LIKE (false, "notlike"),
 		/**
 		 * Put your own wildcards in the value string.
 		 * Requires value type of String.
 		 */
-		NOT_LIKE_CI (false),
+		NOT_LIKE_CI (false, "notlike_ci"),
 		/**
 		 * Requires value type of java.util.Collection
 		 */
-		IN (false),
+		IN (false, "in"),
 		/**
 		 * Requires value type of java.util.Collection
 		 */
-		NOT_IN (false),
+		NOT_IN (false, "notin"),
 		/**
 		 * Creates a restriction that the path value IS NULL.
 		 * No value required, only path.
