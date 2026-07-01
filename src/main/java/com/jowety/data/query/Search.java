@@ -363,6 +363,12 @@ public class Search<T> implements Serializable{
 			throw new UnsupportedOperationException("The SearchDao has not been set");
 		return dao.count(this);
 	}
+	
+	public boolean exists() {
+		if(dao == null)
+			throw new UnsupportedOperationException("The SearchDao has not been set");
+		return dao.exists(this);
+	}
 
 	/**
 	 * Starts a method chain which creates a Filter on this Search

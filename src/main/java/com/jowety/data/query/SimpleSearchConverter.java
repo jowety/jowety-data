@@ -39,14 +39,19 @@ public class SimpleSearchConverter {
 			throw new RuntimeException(
 					"SimpleSearch filter values must be of format \"<path> <match operator> <literal value>\"");
 		}
-		MatchMode mm = Filter.getMatchModeByAlias(parts[1]);
-		if (mm == null) {
-			throw new RuntimeException("MatchMode not found for expression " + parts[1]);
+		fbOut.setLeftSide(Exp.path(parts[0]));
+		MatchMode mm = null;
+		if(f.contains("is null")) mm = MatchMode.NULL;
+		else if(f.contains("not null")) mm = MatchMode.NOT_NULL;
+		else {
+			mm = Filter.getMatchModeByAlias(parts[1]);
+			if (mm == null) {
+				throw new RuntimeException("MatchMode not found for expression " + parts[1]);
+			}
+			Object value = getLiteralValue(parts[2]);
+			fbOut.setRightSide(Exp.literal(value));
 		}
 		fbOut.setMatchMode(mm);
-		fbOut.setLeftSide(Exp.path(parts[0]));
-		Object value = getLiteralValue(parts[2]);
-		fbOut.setRightSide(Exp.literal(value));
 		return fbOut;
 	}
 	
@@ -63,6 +68,12 @@ public class SimpleSearchConverter {
 		else if(input.startsWith("localDate:")) {
 			String val = input.substring(10);
 			return LocalDate.parse(val);
+		}
+		else if(input.equalsIgnoreCase("true")) {
+			return Boolean.TRUE;
+		}
+		else if(input.equalsIgnoreCase("false")) {
+			return Boolean.FALSE;
 		}
 		return input;
 	}

@@ -106,6 +106,10 @@ public interface SearchDaoIF<T> extends EntityDaoIF<T>{
 	public Integer count(Filter<T>... filters);
 	public Integer count(Collection<Filter<T>> filters, boolean distinct);
 	public Integer count(Search<T> search);
+	
+	public boolean exists(Collection<Filter<T>> filters);
+	public boolean exists(Filter<T>... filters);
+	public boolean exists(Search<T> search);
 
 	/**
 	 * Returns a List of T where the input field name is the greatest or least value of all T's.

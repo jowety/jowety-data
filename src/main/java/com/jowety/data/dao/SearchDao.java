@@ -377,6 +377,23 @@ public class SearchDao<T> extends EntityDao<T> implements SearchDaoIF<T> {
 			selects.add(new Select(s));
 		return search(selects, search);
 	}
+	
+	
+
+	@Override
+	public boolean exists(Collection<Filter<T>> filters) {
+		return count(filters) > 0;
+	}
+
+	@Override
+	public boolean exists(Filter<T>... filters) {
+		return count(filters) > 0;
+	}
+
+	@Override
+	public boolean exists(Search<T> search) {
+		return count(search) > 0;
+	}
 
 	/**
 	 * Counts the parameterized object type of the DAO class matching the filters
