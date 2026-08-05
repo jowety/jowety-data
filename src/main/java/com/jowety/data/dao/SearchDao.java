@@ -216,8 +216,8 @@ public class SearchDao<T> extends EntityDao<T> implements SearchDaoIF<T> {
 
 	@Override
 	public <X> List<X> singleColumnSearch(Search<T> s){
-		if(s.getSelects().size() > 1) {
-			throw new UnsupportedOperationException("This method only accepts a single Select");
+		if(s.getSelects()== null || s.getSelects().size() != 1) {
+			throw new UnsupportedOperationException("This method requires a single Select");
 		}
 		return search(s.getSelects().get(0), s);
 	}

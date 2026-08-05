@@ -4,13 +4,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.jowety.data.query.Filter;
+import com.jowety.data.query.Filter.MatchMode;
+
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
-
-import com.jowety.data.query.Filter;
-import com.jowety.data.query.Filter.MatchMode;
 
 public class MasterPredicateBuilder implements PredicateGroupBuilder, PredicateBuilder{
 
@@ -45,6 +45,7 @@ public class MasterPredicateBuilder implements PredicateGroupBuilder, PredicateB
 		builders.put(MatchMode.CONTAINS_CI, new ContainsBuilderCI(false));
 		builders.put(MatchMode.DOESNT_CONTAIN_CI, new ContainsBuilderCI(true));
 		builders.put(MatchMode.ON_DATE, new OnDateBuilder(false));
+		builders.put(MatchMode.TYPE, new TypeOfBuilder(false));
 
 		groupBuilders.put(MatchMode.AND, new AndBuilder(this));
 		groupBuilders.put(MatchMode.OR, new OrBuilder(this));

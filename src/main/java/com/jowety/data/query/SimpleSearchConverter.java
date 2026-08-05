@@ -1,11 +1,18 @@
 package com.jowety.data.query;
 
+import java.beans.PropertyDescriptor;
 import java.time.LocalDate;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.format.support.DefaultFormattingConversionService;
 
 import com.jowety.data.client.search.SimpleSearch;
 import com.jowety.data.query.Filter.MatchMode;
 
 public class SimpleSearchConverter {
+	
+	private static final ConversionService conversionService = new DefaultFormattingConversionService();
 	
 	public static <T> Search<T> convertIn(SimpleSearch b, Class<T> type) {
 		Search<T> out = new Search<>();
@@ -39,7 +46,8 @@ public class SimpleSearchConverter {
 			throw new RuntimeException(
 					"SimpleSearch filter values must be of format \"<path> <match operator> <literal value>\"");
 		}
-		fbOut.setLeftSide(Exp.path(parts[0]));
+		String propertyName = parts[0];
+		fbOut.setLeftSide(Exp.path(propertyName));
 		MatchMode mm = null;
 		if(f.contains("is null")) mm = MatchMode.NULL;
 		else if(f.contains("not null")) mm = MatchMode.NOT_NULL;
@@ -48,14 +56,40 @@ public class SimpleSearchConverter {
 			if (mm == null) {
 				throw new RuntimeException("MatchMode not found for expression " + parts[1]);
 			}
-			Object value = getLiteralValue(parts[2]);
+			Object value = convert(type, propertyName, parts[2]);
 			fbOut.setRightSide(Exp.literal(value));
 		}
 		fbOut.setMatchMode(mm);
 		return fbOut;
 	}
 	
-	public static Object getLiteralValue(String input) {
+	/**
+     * Statically converts a raw string value into the exact object type expected 
+     * by a target class property.
+     *
+     * @param targetClass  The class owning the property (e.g., TransactionDto.class)
+     * @param propertyName The name of the field (e.g., "strikePrice" or "type")
+     * @param rawValue     The raw text filter string from your UI/API
+     * @return The strongly-typed object (e.g., BigDecimal, LocalDate, Enum)
+     */
+    public static Object convert(Class<?> targetClass, String propertyName, String rawValue) {
+        if (targetClass == null || propertyName == null) {
+            throw new IllegalArgumentException("Class and property name must not be null");
+        }
+        PropertyDescriptor pd = BeanUtils.getPropertyDescriptor(targetClass, propertyName);        
+        if (pd == null) {
+            throw new IllegalArgumentException(
+                String.format("Property '%s' not found on class %s", propertyName, targetClass.getSimpleName())
+            );
+        }
+        Class<?> targetType = pd.getPropertyType();
+        if (rawValue == null || (rawValue.isEmpty() && targetType != String.class)) {
+            return null;
+        }
+        return conversionService.convert(rawValue, targetType);
+    }
+	
+	public static Object getLiteralValue(String input, Class<?> type) {
 		if(input.startsWith("'") && input.endsWith("'")) {
 			return input.substring(1, input.length() - 1);
 		}

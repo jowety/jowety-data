@@ -65,4 +65,6 @@ public interface EntityDaoUpdatesIF<T> {
 	 * Flushes all pending changes to the database.
 	 */
 	public void flush();
+	
+	public void clear();
 }

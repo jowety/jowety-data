@@ -391,6 +391,9 @@ public class EntityDao<T>  implements EntityDaoIF<T>, SqlDaoIF{
 	public void flush() {
 		getEm().flush();
 	}
+	public void clear() {
+		getEm().clear();
+	}
 
 
 	/* Override this in concrete DAO class to set class level hints

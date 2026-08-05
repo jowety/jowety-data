@@ -1,6 +1,8 @@
 package com.jowety.data.query;
 
 import com.jowety.data.query.function.Length;
+import com.jowety.data.query.function.Month;
+import com.jowety.data.query.function.MonthName;
 import com.jowety.data.query.function.SubStr;
 import com.jowety.data.query.function.ToChar;
 import com.jowety.data.query.function.ToDate;
@@ -10,6 +12,14 @@ public class Functions {
 	
 	public static Function year(String path) {
 		return new Year(path);
+	}
+	
+	public static Function month(String path) {
+		return new Month(path);
+	}
+
+	public static Function monthName(String path) {
+		return new MonthName(path);
 	}
 	
 	public static Function length(String path) {

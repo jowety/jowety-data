@@ -3,16 +3,16 @@ package com.jowety.data.query.function;
 import com.jowety.data.query.Function;
 
 /**
- * month function needs a date type input
- * returns an Integer
+ * monthname function needs a date type input
+ * returns a String
  * @author Jon.Tyree
  */
-public class Month extends Function {
+public class MonthName extends Function {
 
 	private static final long serialVersionUID = 1L;
 
-	public Month(String path) {
-		super("MONTH", Integer.class);
+	public MonthName(String path) {
+		super("MONTHNAME", String.class);
 		pathArg(path);
 	}
 }

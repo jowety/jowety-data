@@ -145,13 +145,19 @@ public class Filter<T>  implements Serializable{
 		 */
 		LESS_THAN_OR_EQUAL(false, "lte", "<="),
 
+		/**
+		 * New TYPE MatchMode uses root.type() to match the entity class.
+		 * Useful for polymorphic tables to filter by subclass.
+		 * Requires a value type of java.lang.Class, left-side expression is ignored
+		 */
+		TYPE(false),
 
 		/**
-		 * Requires value type of Collection<FilterBy>, no path required
+		 * Requires value type of Collection<FilterBy>, left-side expression is ignored
 		 */
 		OR (true),
 		/**
-		 * Requires value type of Collection<FilterBy>, no path required
+		 * Requires value type of Collection<FilterBy>, left-side expression is ignored
 		 */
 		AND (true);
 
@@ -550,5 +556,18 @@ public class Filter<T>  implements Serializable{
 			rightside = Exp.function(func);
 			return search;
 		}
+	}
+	
+	public static <T,X> Filter<T> typeFilter(Class<X> concreteType, Class<T> genericType){
+		Filter<T> f = new Filter<T>();
+		f.setMatchMode(MatchMode.TYPE);
+		f.setRightSide(Exp.literal(concreteType));
+		return f;
+	}	
+	public static <X> Filter<X> typeFilter(Class<X> concreteType){
+		Filter<X> f = new Filter<X>();
+		f.setMatchMode(MatchMode.TYPE);
+		f.setRightSide(Exp.literal(concreteType));
+		return f;
 	}
 }

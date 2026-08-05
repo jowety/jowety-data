@@ -16,6 +16,10 @@ public class Function implements Serializable{
 	public Function() {
 	}
 
+	/**
+	 * @param name The native function name
+	 * @param type The return type expected
+	 */
 	public Function(String name, Class type) {
 		this.name = name;
 		this.type = type;
